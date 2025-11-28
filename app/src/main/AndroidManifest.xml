@@ -13,7 +13,7 @@
       android:theme="@style/Theme.TTICEditing">
 
     <activity
-        android:name=".MainActivity"
+        android:name=".GreetingActivity"
         android:exported="true">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
