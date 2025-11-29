@@ -19,8 +19,9 @@ import androidx.activity.result.contract.ActivityResultContracts.RequestMultiple
 import androidx.activity.result.contract.ActivityResultContracts.TakePicture
 
 /**
- * 用于从相册或相机获取图片，成功后结果通过 Listener.onPickImageResult() 返回。在调用时处理
+ * 用于从相册或相机获取图片，成功后结果通过 Handler.onPickImageResult() 返回。在调用时处理
  * 对应的用户权限和设备可用性情况。拍摄成功后图片会保留在相册中，用户可以再次打开图片编辑。
+ * 选取的图片以 URI 的形式返回，可通过 decodeBitmapFromUri() 从 contentResolver 中解码出 Bitmap。
  */
 class ImagePicker(private val context: ComponentActivity, private val handler: Handler) {
     interface Handler {
@@ -66,7 +67,7 @@ class ImagePicker(private val context: ComponentActivity, private val handler: H
     }
 
     /**
-     * 根据返回的 URI，解码出bitmap
+     * 根据返回的 URI，解码出 Bitmap。
      */
     fun decodeBitmapFromUri(uri: Uri): Bitmap {
         context.contentResolver.openInputStream(uri).use {

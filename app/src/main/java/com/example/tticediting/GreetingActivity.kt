@@ -2,6 +2,7 @@ package com.example.tticediting
 
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -9,6 +10,8 @@ import androidx.core.graphics.drawable.toDrawable
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.tticediting.databinding.GreetingActivityBinding
+
+private const val TAG = "XX-GreetingActivity"
 
 class GreetingActivity : AppCompatActivity(), ImagePicker.Handler {
     private val imagePicker = ImagePicker(this, this)
@@ -39,9 +42,11 @@ class GreetingActivity : AppCompatActivity(), ImagePicker.Handler {
     }
 
     override fun onPickImageResult(uri: Uri) {
-        // TODO
-        val bitmap = imagePicker.decodeBitmapFromUri(uri)
-        binding.layoutGreeting.setBackgroundDrawable(bitmap.toDrawable(resources))
+        // TODO：跳转到编辑器页面进行处理
+        val image = imagePicker.decodeBitmapFromUri(uri)
+
+        Log.d(TAG, "Pick image: ${image.width} x ${image.height}")
+        binding.layoutGreeting.setBackgroundDrawable(image.toDrawable(resources))
     }
 
     override fun onPermissionReject() {
