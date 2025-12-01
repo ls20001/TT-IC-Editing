@@ -39,7 +39,7 @@
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/preview" />
+            android:text="@string/save" />
       </com.google.android.material.tabs.TabLayout>
     </com.google.android.material.card.MaterialCardView>
   </androidx.constraintlayout.widget.ConstraintLayout>
