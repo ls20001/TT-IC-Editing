@@ -24,6 +24,11 @@
       android:theme="@style/Theme.TTICEditing">
 
     <activity
+        android:name=".EditActivity"
+        android:exported="true">
+    </activity>
+
+    <activity
         android:name=".GreetingActivity"
         android:exported="true">
       <intent-filter>

@@ -5,4 +5,5 @@
   <string name="start_editing">开始编辑</string>
   <string name="permission_deny">请求失败：未授予访问权限</string>
   <string name="camera_unavaliable">设备相机不可用</string>
+  <string name="preview">预览</string>
 </resources>
