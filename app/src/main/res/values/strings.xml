@@ -7,4 +7,10 @@
   <string name="camera_unavaliable">设备相机不可用</string>
   <string name="preview">预览</string>
   <string name="save">保存</string>
+  <!-- TODO: Remove or change this placeholder text -->
+  <string name="hello_blank_fragment">Hello blank fragment</string>
+  <string name="chop">裁剪</string>
+  <string name="free">自由</string>
+  <string name="save_success">保存成功</string>
+  <string name="save_failed">保存失败</string>
 </resources>

@@ -12,11 +12,17 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia
 import androidx.activity.result.contract.ActivityResultContracts.RequestMultiplePermissions
 import androidx.activity.result.contract.ActivityResultContracts.TakePicture
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+
+private const val TAG = "XX-ImagePicker"
 
 /**
  * 用于从相册或相机获取图片，成功后结果通过 Handler.onPickImageResult() 返回。在调用时处理
@@ -63,15 +69,6 @@ class ImagePicker(private val context: ComponentActivity, private val handler: H
             launchPickImage()
         } else {
             launchPickImageAfterPermissionRequest()
-        }
-    }
-
-    /**
-     * 根据返回的 URI，解码出 Bitmap。
-     */
-    fun decodeBitmapFromUri(uri: Uri): Bitmap {
-        context.contentResolver.openInputStream(uri).use {
-            return BitmapFactory.decodeStream(it)
         }
     }
 
