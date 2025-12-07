@@ -38,9 +38,9 @@
 
 **平板设备UI界面展示**
 
-![ui_3.jpg](static/ui_1.jpg)
+![ui_3.jpg](static/ui_3.jpg)
 
-![ui_4.jpg](static/ui_2.jpg)
+![ui_4.jpg](static/ui_4.jpg)
 
 ## 2. 开发环境
 
