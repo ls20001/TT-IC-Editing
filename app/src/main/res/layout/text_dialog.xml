@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_margin="50dp"
+    android:background="?colorOnSurfaceInverse"
+    android:orientation="vertical">
+
+  <com.google.android.material.textview.MaterialTextView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="?colorPrimary"
+      android:contentDescription="@string/edit_text"
+      android:padding="10dp"
+      android:text="@string/edit_text"
+      android:textColor="?colorOnPrimary"
+      android:textSize="24sp"
+      android:textStyle="bold" />
+
+  <ScrollView
+      android:layout_width="match_parent"
+      android:layout_height="400dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:orientation="vertical">
+
+      <com.google.android.material.textfield.TextInputLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          app:helperText="@string/enter_content">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text" />
+      </com.google.android.material.textfield.TextInputLayout>
+
+      <com.google.android.material.textfield.TextInputLayout
+          android:id="@+id/textSize"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          app:helperText="@string/font_size">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:maxLines="1" />
+      </com.google.android.material.textfield.TextInputLayout>
+
+      <com.google.android.material.textfield.TextInputLayout
+          android:id="@+id/textColor"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          app:helperText="@string/font_color">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:maxLength="8"
+            android:maxLines="1" />
+      </com.google.android.material.textfield.TextInputLayout>
+
+      <View
+          android:id="@+id/divider"
+          android:layout_width="match_parent"
+          android:layout_height="3dp"
+          android:layout_marginTop="20dp"
+          android:background="?android:attr/listDivider" />
+
+      <TextView
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:labelFor="@id/fontName"
+          android:paddingHorizontal="10dp"
+          android:text="@string/font_name" />
+
+      <RadioGroup
+          android:id="@+id/fontName"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginHorizontal="10dp"
+          android:checkedButton="@id/defaultFontButton"
+          android:orientation="vertical"
+          tools:ignore="HardcodedText">
+
+        <RadioButton
+            android:id="@+id/defaultFontButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="default" />
+
+        <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:text="sans-serif" />
+
+        <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="cursive"
+            android:text="cursive" />
+
+        <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="serif"
+            android:text="serif" />
+
+        <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="monospace"
+            android:text="monospace" />
+
+        <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="casual"
+            android:text="casual" />
+      </RadioGroup>
+    </LinearLayout>
+  </ScrollView>
+
+  <com.google.android.material.button.MaterialButtonGroup
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginHorizontal="10dp"
+      android:gravity="end">
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/confirm"
+        android:layout_width="64dp"
+        android:layout_height="wrap_content"
+        app:icon="@drawable/ic_confirm" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/discard"
+        android:layout_width="64dp"
+        android:layout_height="wrap_content"
+        app:icon="@drawable/ic_discard" />
+  </com.google.android.material.button.MaterialButtonGroup>
+</LinearLayout>

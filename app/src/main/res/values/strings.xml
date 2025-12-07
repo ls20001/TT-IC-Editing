@@ -1,16 +1,24 @@
 <resources>
   <string name="app_name">TT-IC-Editing</string>
-  <string name="pick_from_file">从文件中选择</string>
+  <string name="pick_from_file">相册</string>
   <string name="take_photo">拍摄照片</string>
   <string name="start_editing">开始编辑</string>
   <string name="permission_deny">请求失败：未授予访问权限</string>
   <string name="camera_unavaliable">设备相机不可用</string>
   <string name="preview">预览</string>
   <string name="save">保存</string>
-  <!-- TODO: Remove or change this placeholder text -->
-  <string name="hello_blank_fragment">Hello blank fragment</string>
   <string name="chop">裁剪</string>
   <string name="free">自由</string>
   <string name="save_success">保存成功</string>
   <string name="save_failed">保存失败</string>
+  <string name="rotation">旋转</string>
+  <string name="edit_text">编辑文字</string>
+  <string name="enter_content">输入内容</string>
+  <string name="font_size">字号</string>
+  <string name="font_color">字体颜色</string>
+  <string name="font_name">字体</string>
+  <string name="open">打开</string>
+  <string name="text">文字</string>
+  <string name="adjust">调整</string>
+  <string name="wip">功能开发中</string>
 </resources>

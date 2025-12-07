@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RotationFragment">
+
+  <com.google.android.material.card.MaterialCardView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_gravity="bottom"
+      android:layout_marginHorizontal="10dp"
+      android:layout_marginBottom="10dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+      <com.google.android.material.button.MaterialButton
+          android:id="@+id/confirm"
+          style="@style/Widget.Material3.Button.Icon"
+          android:layout_width="48dp"
+          android:layout_height="48dp"
+          app:icon="@drawable/ic_confirm"
+          app:layout_constraintEnd_toStartOf="@id/discard"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent" />
+
+      <com.google.android.material.button.MaterialButton
+          android:id="@+id/discard"
+          style="@style/Widget.Material3.Button.Icon"
+          android:layout_width="48dp"
+          android:layout_height="48dp"
+          app:icon="@drawable/ic_discard"
+          app:layout_constraintEnd_toStartOf="@id/layout_divider"
+          app:layout_constraintStart_toEndOf="@id/confirm"
+          app:layout_constraintTop_toTopOf="parent" />
+
+      <View
+          android:id="@+id/layout_divider"
+          android:layout_width="2dp"
+          android:layout_height="48dp"
+          android:background="?android:attr/listDivider"
+          app:layout_constraintEnd_toStartOf="@id/rotationCcw"
+          app:layout_constraintStart_toEndOf="@id/discard"
+          app:layout_constraintTop_toTopOf="parent" />
+
+      <com.google.android.material.button.MaterialButton
+          android:id="@+id/rotationCcw"
+          style="@style/Widget.Material3.Button.Icon"
+          android:layout_width="48dp"
+          android:layout_height="48dp"
+          app:icon="@drawable/ic_rotate_ccw"
+          app:layout_constraintEnd_toStartOf="@id/rotationCw"
+          app:layout_constraintStart_toEndOf="@id/layout_divider"
+          app:layout_constraintTop_toTopOf="parent" />
+
+      <com.google.android.material.button.MaterialButton
+          android:id="@+id/rotationCw"
+          style="@style/Widget.Material3.Button.Icon"
+          android:layout_width="48dp"
+          android:layout_height="48dp"
+          app:icon="@drawable/ic_rotate_cw"
+          app:layout_constraintEnd_toStartOf="@id/rotation180"
+          app:layout_constraintStart_toEndOf="@id/rotationCcw"
+          app:layout_constraintTop_toTopOf="parent" />
+
+      <com.google.android.material.button.MaterialButton
+          android:id="@+id/rotation180"
+          style="@style/Widget.Material3.Button.Icon"
+          android:layout_width="48dp"
+          android:layout_height="48dp"
+          app:icon="@drawable/ic_rotate_180"
+          app:layout_constraintEnd_toStartOf="@id/flipHorizontal"
+          app:layout_constraintStart_toEndOf="@id/rotationCw"
+          app:layout_constraintTop_toTopOf="parent" />
+
+      <com.google.android.material.button.MaterialButton
+          android:id="@+id/flipHorizontal"
+          style="@style/Widget.Material3.Button.Icon"
+          android:layout_width="48dp"
+          android:layout_height="48dp"
+          app:icon="@drawable/ic_flip_horizontal"
+          app:layout_constraintEnd_toStartOf="@id/flipVertival"
+          app:layout_constraintStart_toEndOf="@id/rotation180"
+          app:layout_constraintTop_toTopOf="parent" />
+
+      <com.google.android.material.button.MaterialButton
+          android:id="@+id/flipVertival"
+          style="@style/Widget.Material3.Button.Icon"
+          android:layout_width="48dp"
+          android:layout_height="48dp"
+          app:icon="@drawable/ic_flip_vertical"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toEndOf="@id/flipHorizontal"
+          app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+  </com.google.android.material.card.MaterialCardView>
+</FrameLayout>

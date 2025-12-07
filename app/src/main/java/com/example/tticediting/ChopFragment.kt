@@ -1,7 +1,6 @@
 package com.example.tticediting
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,12 +13,9 @@ import com.example.tticediting.databinding.ChopFragmentBinding
 /**
  * 处理图像裁剪。
  */
-class ChopFragment : Fragment() {
+class ChopFragment(private val editActivity: EditActivity) : Fragment() {
     private lateinit var binding: ChopFragmentBinding
     private lateinit var imageEdit: ImageEditCore
-
-    private val editActivity: EditActivity
-        get() = activity as EditActivity
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?

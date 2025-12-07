@@ -7,20 +7,14 @@ import android.Manifest.permission.READ_MEDIA_VISUAL_USER_SELECTED
 import android.content.ContentValues
 import android.content.pm.PackageManager.FEATURE_CAMERA_ANY
 import android.content.pm.PackageManager.PERMISSION_GRANTED
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia
 import androidx.activity.result.contract.ActivityResultContracts.RequestMultiplePermissions
 import androidx.activity.result.contract.ActivityResultContracts.TakePicture
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 private const val TAG = "XX-ImagePicker"
 
