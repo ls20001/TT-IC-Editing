@@ -26,11 +26,40 @@ class EditActivity : AppCompatActivity(), ImagePicker.Handler {
     private lateinit var binding: EditActivityBinding
     private lateinit var imageEdit: ImageEditCore
 
+    // 默认进入预览界面
+    private var currentToolIndex = TOOL_PREVIEW
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = EditActivityBinding.inflate(layoutInflater)
         imageEdit = ViewModelProvider(this)[ImageEditCore::class.java]
+
+        handleCreateInstanceState(savedInstanceState)
+        handleActivityInvoke()
         initUi()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        handlSaveInstanceState(outState)
+    }
+
+    private fun handleCreateInstanceState(inState: Bundle?) {
+        if (inState != null) {
+            currentToolIndex = inState.getInt(KEY_CURRENT_TOOL_INDEX)
+        }
+    }
+
+    private fun handlSaveInstanceState(outState: Bundle) {
+        outState.putInt(KEY_CURRENT_TOOL_INDEX, currentToolIndex)
+    }
+
+    // 处理上一个 Activity 调用
+    private fun handleActivityInvoke() {
+        val uri = getUriFromIntent(this)
+        if (uri != null) {
+            imageEdit.openImageFromUri(uri)
+        }
     }
 
     override fun onPickImageResult(uri: Uri) {
@@ -46,6 +75,9 @@ class EditActivity : AppCompatActivity(), ImagePicker.Handler {
         Toast.makeText(this, R.string.camera_unavaliable, Toast.LENGTH_LONG).show()
     }
 
+    /**
+     * 提供 ImageEditCore 的图像选取接口
+     */
     fun pickImageByCamera() {
         imagePicker.pickImageByCamera()
     }
@@ -58,7 +90,7 @@ class EditActivity : AppCompatActivity(), ImagePicker.Handler {
      * 用于 Fragment 返回到预览页面
      */
     fun backToPreview() {
-        binding.toolPicker.selectTab(binding.toolPicker.getTabAt(0))
+        selectToolFragment(TOOL_PREVIEW)
     }
 
     private fun initUi() {
@@ -83,9 +115,11 @@ class EditActivity : AppCompatActivity(), ImagePicker.Handler {
             } else {
                 Snackbar.make(binding.root, R.string.save_failed, Snackbar.LENGTH_LONG).show()
             }
+            backToPreview()
         }
 
-        // 默认选择第一个预览视图，此时不需要加载 Fragment。
+        // 设置当前 Fragment
+        selectToolFragment(currentToolIndex)
         binding.toolPicker.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 selectToolFragment(tab.position)
@@ -94,61 +128,71 @@ class EditActivity : AppCompatActivity(), ImagePicker.Handler {
             override fun onTabUnselected(tab: TabLayout.Tab) {}
             override fun onTabReselected(tab: TabLayout.Tab) {}
         })
-
-        // 处理上一个 Activity 调用
-        getParameterFromIntent(this)?.let { uri ->
-            imageEdit.openImageFromUri(uri)
-            intent.removeExtra(KEY_URI)
-        }
     }
 
     // 处理主页工具栏的选择
     private fun selectToolFragment(position: Int) {
         Log.d(TAG, "Tools at position $position is selected")
-
-        when (position) {
-            0 -> replaceFragment(null)                      // Preview
-            1 -> replaceFragment(ChopFragment(this))        // Chop
-            2 -> replaceFragment(RotationFragment(this))    // Rotation
-            3 -> workInProcess()                            // Text
-            4 -> replaceFragment(OpenFragment(this))        // Open
-            5 -> workInProcess()                            // Adjustment
-            6 -> {                                          // Save
-                imageEdit.saveImageToAlbum()
-                replaceFragment(null)
-            }
+        binding.toolPicker.apply {
+            selectTab(getTabAt(position))
         }
-    }
 
-    private var currentFragment: Fragment? = null
+        if (position == currentToolIndex) {
+            return
+        }
 
-    private fun replaceFragment(fragment: Fragment?) {
+        currentToolIndex = position
+        val fragment = when (position) {
+            TOOL_PREVIEW -> null
+            TOOL_CHOP -> ChopFragment()
+            TOOL_ROTATION -> RotationFragment()
+            TOOL_TEXT_EDIT -> workInProcess()
+            TOOL_OPEN -> OpenFragment()
+            TOOL_ADJUSTMENT -> workInProcess()
+            TOOL_SAVE -> {
+                imageEdit.saveImageToAlbum()
+                null
+            }
+
+            else -> null
+        }
+
         supportFragmentManager.beginTransaction().apply {
-            currentFragment?.let {
+            binding.toolFragment.getFragment<Fragment?>()?.let {
                 remove(it)
             }
             fragment?.let {
                 replace(R.id.toolFragment, it)
             }
-            currentFragment = fragment
             commit()
         }
     }
 
-    private fun workInProcess() {
+    private fun workInProcess(): Fragment? {
         Snackbar.make(binding.root, R.string.wip, Snackbar.LENGTH_LONG).show()
-        backToPreview()
+        return null
     }
 
     companion object {
-        private const val KEY_URI = "uri"
+        private const val TOOL_PREVIEW = 0
+        private const val TOOL_CHOP = 1
+        private const val TOOL_ROTATION = 2
+        private const val TOOL_TEXT_EDIT = 3
+        private const val TOOL_OPEN = 4
+        private const val TOOL_ADJUSTMENT = 5
+        private const val TOOL_SAVE = 6
 
-        /**
-         * 从 Intent 获取图片传递的结果。
-         */
-        private fun getParameterFromIntent(activity: EditActivity): Uri? {
-            @Suppress("DEPRECATION")
-            return activity.intent.getParcelableExtra("uri")
+        private const val KEY_URI = "uri"
+        private const val KEY_CURRENT_TOOL_INDEX = "currentToolIndex"
+
+        // 从 Intent 获取图片传递的结果，获取后从Intent中删除，防止重新创建后误判。
+        private fun getUriFromIntent(activity: EditActivity): Uri? {
+            activity.intent.apply {
+                @Suppress("DEPRECATION")
+                val uri = getParcelableExtra<Uri>(KEY_URI)
+                removeExtra(KEY_URI)
+                return uri
+            }
         }
 
         /**

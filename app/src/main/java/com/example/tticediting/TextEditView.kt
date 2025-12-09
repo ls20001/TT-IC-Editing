@@ -42,6 +42,7 @@ class TextEditView : View {
     }
 
     private fun showDialogForInput() {
+
     }
 
     fun setFontRotation(angle: Int) {}

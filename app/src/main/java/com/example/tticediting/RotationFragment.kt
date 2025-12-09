@@ -13,9 +13,12 @@ import com.example.tticediting.databinding.RotationFragmentBinding
 /**
  * 处理图像翻转和旋转
  */
-class RotationFragment(private val editActivity: EditActivity) : Fragment() {
+class RotationFragment : Fragment() {
     private lateinit var binding: RotationFragmentBinding
     private lateinit var imageEdit: ImageEditCore
+
+    private val editActivity: EditActivity
+        get() = activity as EditActivity
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?

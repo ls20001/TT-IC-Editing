@@ -12,8 +12,11 @@ import com.example.tticediting.databinding.OpenFragmentBinding
 /**
  * 编辑器页面，处理图片的打开
  */
-class OpenFragment(private val editActivity: EditActivity) : Fragment() {
+class OpenFragment() : Fragment() {
     private lateinit var binding: OpenFragmentBinding
+
+    private val editActivity: EditActivity
+        get() = activity as EditActivity
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?

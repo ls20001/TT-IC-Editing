@@ -13,9 +13,12 @@ import com.example.tticediting.databinding.ChopFragmentBinding
 /**
  * 处理图像裁剪。
  */
-class ChopFragment(private val editActivity: EditActivity) : Fragment() {
+class ChopFragment : Fragment() {
     private lateinit var binding: ChopFragmentBinding
     private lateinit var imageEdit: ImageEditCore
+
+    private val editActivity: EditActivity
+        get() = activity as EditActivity
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -49,7 +52,6 @@ class ChopFragment(private val editActivity: EditActivity) : Fragment() {
                 R.id.chopMode9to16 -> binding.chopView.setFixAspectRatio(9, 16)
             }
         }
-
         binding.confirm.setOnClickListener {
             imageEdit.chopImageOnView(binding.chopView.getChopBox())
             editActivity.backToPreview()

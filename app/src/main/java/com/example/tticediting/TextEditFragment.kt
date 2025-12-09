@@ -15,11 +15,12 @@ import com.example.tticediting.databinding.TextEditFragmentBinding
 /**
  * 文字编辑模块
  */
-class TextEditFragment(private val editActivity: EditActivity) : Fragment() {
+class TextEditFragment : Fragment() {
     private lateinit var binding: TextEditFragmentBinding
     private lateinit var imageEdit: ImageEditCore
 
-    private val inputDialog = TextEditDialog()
+    private val editActivity: EditActivity
+        get() = activity as EditActivity
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,6 +40,7 @@ class TextEditFragment(private val editActivity: EditActivity) : Fragment() {
             insets
         }
         binding.confirm.setOnClickListener {
+            val inputDialog = TextEditDialog()
             inputDialog.show(childFragmentManager, "")
 //            imageEdit.commitUpdate()
 //            editActivity.backToPreview()

@@ -12,6 +12,9 @@ import com.example.tticediting.databinding.GreetingActivityBinding
 
 private const val TAG = "XX-GreetingActivity"
 
+/**
+ * 欢迎页面，用于跳转EditActivity
+ */
 class GreetingActivity : AppCompatActivity(), ImagePicker.Handler {
     private val imagePicker = ImagePicker(this, this)
 
