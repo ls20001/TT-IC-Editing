@@ -10,12 +10,14 @@ import android.graphics.Paint
 import android.graphics.PointF
 import android.graphics.Rect
 import android.graphics.RectF
+import android.graphics.Typeface
 import android.net.Uri
 import android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
 import android.util.Log
 import androidx.core.graphics.createBitmap
 import androidx.core.graphics.toRect
 import androidx.core.graphics.toRectF
+import androidx.core.graphics.withMatrix
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -342,6 +344,37 @@ class ImageEditCore(application: Application) : AndroidViewModel(application) {
         centerizeImageOnView()
     }
 
+    fun drawTextOnView(text: String, typeface: Typeface, color: Int, textRect: RotRect) {
+        val textRectOnImage = screenToImage(textRect)
+        val leftBottom = rotatePoint(
+            PointF(
+                textRectOnImage.x - textRectOnImage.width / 2f,
+                textRectOnImage.y + textRectOnImage.height / 2f
+            ),
+            textRectOnImage.angle,
+            textRectOnImage.center()
+        )
+
+        // 计算变换矩阵：bound -> (left, bottom)
+        val transformation = Matrix()
+        transformation.preRotate(textRect.angle)
+
+        val inverse = Matrix()
+        transformation.invert(inverse)
+
+        val points = floatArrayOf(0f, textRect.height, leftBottom.x, leftBottom.y)
+        inverse.mapPoints(points)
+        transformation.preTranslate(points[2] - points[0], points[3] - points[1])
+
+        paint.typeface = typeface
+        paint.textSize = textRectOnImage.height
+        paint.color = color
+        val canvas = Canvas(targetImage)
+        canvas.withMatrix(transformation) {
+            drawText(text, points[0], points[1], paint)
+        }
+    }
+
     /**
      * 屏幕坐标转换为 bitmap 坐标
      */
@@ -358,16 +391,30 @@ class ImageEditCore(application: Application) : AndroidViewModel(application) {
         )
     }
 
-//    init {
-    // TODO: 测试专用
-    // val options = BitmapFactory.Options().apply {
-    //     inMutable = true
+    fun screenToImage(rect: RotRect): RotRect {
+        val imageWidth = targetImage.width.toFloat()
+        val imageHeight = targetImage.height.toFloat()
+        val scaleX = imageBox.width() / imageWidth
+        val scaleY = imageBox.height() / imageHeight
+        return RotRect(
+            (rect.x - imageBox.left) / scaleX,
+            (rect.y - imageBox.top) / scaleY,
+            rect.width / scaleX,
+            rect.height / scaleY,
+            rect.angle
+        )
+    }
+
+    // init {
+    //     // TODO: 测试专用
+    //     val options = BitmapFactory.Options().apply {
+    //         inMutable = true
+    //     }
+    //     targetImage = BitmapFactory.decodeResource(
+    //         application.resources, R.drawable.test_image, options
+    //     )
+    //     updateImage()
     // }
-    // targetImage = BitmapFactory.decodeResource(
-    //     application.resources, R.drawable.test_image, options
-    // )
-    // updateImage()
-//    }
 
     companion object {
         const val IMAGE_MARGIN_RATIO = 0.2f     // 图像拖动边缘范围和屏幕尺寸的比值

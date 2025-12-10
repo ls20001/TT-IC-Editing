@@ -19,6 +19,8 @@
   <string name="ragular">常规</string>
   <string name="bold">加粗</string>
   <string name="italic">斜体</string>
+  <string name="bold_italic">加粗斜体</string>
+  <string name="preview_text">ABCabc123</string>
   <string name="font_color">字体颜色</string>
   <string name="font_name">字体</string>
   <string name="open">打开</string>

@@ -209,8 +209,4 @@ class ImagePreview : View {
         super.onSizeChanged(w, h, oldw, oldh)
         imageEdit.setViewSize(w, h)
     }
-
-    companion object {
-        const val DOUBLE_TAP_INTERVAL = 300L // 双击的时间间隔，单位为 ms
-    }
 }

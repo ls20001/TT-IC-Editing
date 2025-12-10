@@ -43,38 +43,31 @@
             android:inputType="textMultiLine" />
       </com.google.android.material.textfield.TextInputLayout>
 
-      <TextView
-          android:id="@+id/textPreview"
+      <com.google.android.material.card.MaterialCardView
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:layout_columnSpan="2"
-          android:gravity="center"
-          android:padding="10dp"
-          android:text="@string/preview" />
+          android:layout_marginTop="10dp">
+
+        <TextView
+
+            android:id="@+id/textPreview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnSpan="2"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="@string/preview_text"
+            android:textSize="14sp" />
+      </com.google.android.material.card.MaterialCardView>
 
       <View
           android:layout_width="match_parent"
           android:layout_height="2dp"
           android:layout_columnSpan="2"
+          android:layout_marginTop="10dp"
           android:background="?android:attr/listDivider" />
-
-      <TextView
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:layout_columnWeight="1"
-          android:layout_gravity="center_vertical"
-          android:gravity="center"
-          android:labelFor="@id/fontSize"
-          android:text="@string/font_size" />
-
-      <com.google.android.material.slider.RangeSlider
-          android:id="@+id/fontSize"
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:layout_columnWeight="5"
-          android:value="14"
-          android:valueFrom="12"
-          android:valueTo="36" />
 
       <TextView
           android:layout_width="0dp"
@@ -127,6 +120,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/italic" />
+
+        <RadioButton
+            android:id="@+id/fontStyleBoldItalic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/bold_italic" />
       </RadioGroup>
 
       <View
@@ -149,7 +148,7 @@
           android:layout_height="wrap_content"
           android:layout_columnSpan="2"
           android:max="255"
-          android:progress="255"
+          android:progress="0"
           android:progressBackgroundTint="@color/red"
           android:progressTint="@color/red"
           android:thumbTint="@color/red" />
@@ -160,7 +159,7 @@
           android:layout_height="wrap_content"
           android:layout_columnSpan="2"
           android:max="255"
-          android:progress="255"
+          android:progress="0"
           android:progressBackgroundTint="@color/green"
           android:progressTint="@color/green"
           android:thumbTint="@color/green" />
@@ -171,7 +170,7 @@
           android:layout_height="wrap_content"
           android:layout_columnSpan="2"
           android:max="255"
-          android:progress="255"
+          android:progress="0"
           android:progressBackgroundTint="@color/blue"
           android:progressTint="@color/blue"
           android:thumbTint="@color/blue" />

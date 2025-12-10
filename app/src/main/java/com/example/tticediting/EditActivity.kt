@@ -41,7 +41,7 @@ class EditActivity : AppCompatActivity(), ImagePicker.Handler {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        handlSaveInstanceState(outState)
+        handleSaveInstanceState(outState)
     }
 
     private fun handleCreateInstanceState(inState: Bundle?) {
@@ -50,7 +50,7 @@ class EditActivity : AppCompatActivity(), ImagePicker.Handler {
         }
     }
 
-    private fun handlSaveInstanceState(outState: Bundle) {
+    private fun handleSaveInstanceState(outState: Bundle) {
         outState.putInt(KEY_CURRENT_TOOL_INDEX, currentToolIndex)
     }
 
@@ -132,21 +132,16 @@ class EditActivity : AppCompatActivity(), ImagePicker.Handler {
 
     // 处理主页工具栏的选择
     private fun selectToolFragment(position: Int) {
-        Log.d(TAG, "Tools at position $position is selected")
+        currentToolIndex = position
         binding.toolPicker.apply {
             selectTab(getTabAt(position))
         }
 
-        if (position == currentToolIndex) {
-            return
-        }
-
-        currentToolIndex = position
         val fragment = when (position) {
             TOOL_PREVIEW -> null
             TOOL_CHOP -> ChopFragment()
             TOOL_ROTATION -> RotationFragment()
-            TOOL_TEXT_EDIT -> workInProcess()
+            TOOL_TEXT_EDIT -> TextEditFragment()
             TOOL_OPEN -> OpenFragment()
             TOOL_ADJUSTMENT -> workInProcess()
             TOOL_SAVE -> {
