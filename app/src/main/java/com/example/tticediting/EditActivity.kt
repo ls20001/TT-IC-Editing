@@ -143,7 +143,7 @@ class EditActivity : AppCompatActivity(), ImagePicker.Handler {
             TOOL_ROTATION -> RotationFragment()
             TOOL_TEXT_EDIT -> TextEditFragment()
             TOOL_OPEN -> OpenFragment()
-            TOOL_ADJUSTMENT -> workInProcess()
+            TOOL_ADJUSTMENT -> AdjustmentFragment()
             TOOL_SAVE -> {
                 imageEdit.saveImageToAlbum()
                 null

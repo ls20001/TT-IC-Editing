@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AdjustmentFragment">
+
+  <com.google.android.material.card.MaterialCardView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_gravity="bottom"
+      android:layout_marginHorizontal="10dp"
+      android:layout_marginBottom="10dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+      <com.google.android.material.button.MaterialButton
+          android:id="@+id/confirm"
+          style="@style/Widget.Material3.Button.Icon"
+          android:layout_width="48dp"
+          android:layout_height="48dp"
+          app:icon="@drawable/ic_confirm"
+          app:layout_constraintBottom_toTopOf="@id/discard"
+          app:layout_constraintEnd_toStartOf="@id/layout_divider"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent" />
+
+      <com.google.android.material.button.MaterialButton
+          android:id="@+id/discard"
+          style="@style/Widget.Material3.Button.Icon"
+          android:layout_width="48dp"
+          android:layout_height="48dp"
+          app:icon="@drawable/ic_discard"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toStartOf="@id/layout_divider"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toBottomOf="@id/confirm" />
+
+      <View
+          android:id="@+id/layout_divider"
+          android:layout_width="2dp"
+          android:layout_height="126dp"
+          android:background="?android:attr/listDivider"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toStartOf="@id/layout_adjustment_tools"
+          app:layout_constraintStart_toEndOf="@id/discard"
+          app:layout_constraintTop_toTopOf="parent" />
+
+      <GridLayout
+          android:id="@+id/layout_adjustment_tools"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:columnCount="2"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toEndOf="@id/layout_divider"
+          app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:labelFor="@id/adjustBrightness"
+            android:text="@string/brightness" />
+
+        <com.google.android.material.slider.RangeSlider
+            android:id="@+id/adjustBrightness"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="5"
+            android:value="0"
+            android:valueFrom="-100"
+            android:valueTo="100" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:labelFor="@id/adjustContrast"
+            android:text="@string/contrast" />
+
+        <com.google.android.material.slider.RangeSlider
+            android:id="@+id/adjustContrast"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="5"
+            android:value="0"
+            android:valueFrom="-50"
+            android:valueTo="150" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:labelFor="@id/adjustSaturation"
+            android:text="@string/saturation" />
+
+        <com.google.android.material.slider.RangeSlider
+            android:id="@+id/adjustSaturation"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="5"
+            android:value="0"
+            android:valueFrom="-50"
+            android:valueTo="50" />
+      </GridLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+  </com.google.android.material.card.MaterialCardView>
+</FrameLayout>

@@ -5,6 +5,8 @@ import android.content.ContentValues
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
+import android.graphics.ColorMatrix
+import android.graphics.ColorMatrixColorFilter
 import android.graphics.Matrix
 import android.graphics.Paint
 import android.graphics.PointF
@@ -18,6 +20,7 @@ import androidx.core.graphics.createBitmap
 import androidx.core.graphics.toRect
 import androidx.core.graphics.toRectF
 import androidx.core.graphics.withMatrix
+import androidx.core.math.MathUtils.clamp
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -147,6 +150,9 @@ class ImageEditCore(application: Application) : AndroidViewModel(application) {
         inverse.mapRect(imageBoxAfter)
 
         transformation.preTranslate(imageBoxAfter.left, imageBoxAfter.top)
+
+        // 处理滤镜
+        enableColorFilter()
         canvas.drawBitmap(targetImage, transformation, paint)
     }
 
@@ -295,9 +301,6 @@ class ImageEditCore(application: Application) : AndroidViewModel(application) {
 
     // 将变换结果写入到原图像
     fun commitUpdate() {
-        if (imageRotation % 360 == 0 && !imageFlipHorizontal && !imageFlipVertival)
-            return
-
         val transformation = Matrix()
 
         // 处理翻转
@@ -328,20 +331,30 @@ class ImageEditCore(application: Application) : AndroidViewModel(application) {
 
         // 更新图像
         val canvas = Canvas(image)
+
+        enableColorFilter()
         canvas.drawBitmap(targetImage, transformation, paint)
         targetImage = image
 
         imageRotation = 0
         imageFlipHorizontal = false
         imageFlipVertival = false
-        centerizeImageOnView()
+
+        brightnessMatrix = ColorMatrix()
+        contrastMatrix = ColorMatrix()
+        saturationMatrix = ColorMatrix()
+        updateImage()
     }
 
     fun discardUpdate() {
         imageRotation = 0
         imageFlipHorizontal = false
         imageFlipVertival = false
-        centerizeImageOnView()
+
+        brightnessMatrix = ColorMatrix()
+        contrastMatrix = ColorMatrix()
+        saturationMatrix = ColorMatrix()
+        updateImage()
     }
 
     fun drawTextOnView(text: String, typeface: Typeface, color: Int, textRect: RotRect) {
@@ -405,6 +418,58 @@ class ImageEditCore(application: Application) : AndroidViewModel(application) {
         )
     }
 
+    private var brightnessMatrix = ColorMatrix()
+    private var contrastMatrix = ColorMatrix()
+    private var saturationMatrix = ColorMatrix()
+
+    // 亮度调整，范围 -100% ~ +100%
+    // RGB = clamp(RGB + brightness * 255)
+    fun adjustBrightness(brightnessValue: Float) {
+        val brightness = clamp(brightnessValue, BRIGHTNESS_MIN, BRIGHTNESS_MAX) / 100f
+        brightnessMatrix = ColorMatrix(
+            floatArrayOf(
+                1f, 0f, 0f, 0f, brightness * 255f,
+                0f, 1f, 0f, 0f, brightness * 255f,
+                0f, 0f, 1f, 0f, brightness * 255f,
+                0f, 0f, 0f, 1f, 0f
+            )
+        )
+        updateImage()
+    }
+
+    // 对比度调整，范围 -50% ~ +150%
+    // RGB = (RGB - 128) * (contrast + 1) + 128
+    fun adjustContrast(contrastValue: Float) {
+        val contrast = clamp(contrastValue, CONTRAST_MIN, CONTRAST_MAX) / 100f
+        val scale = (contrast + 1)
+        val translation = -128f * (contrast + 1) + 128f
+        contrastMatrix = ColorMatrix(
+            floatArrayOf(
+                scale, 0f, 0f, 0f, translation,
+                0f, scale, 0f, 0f, translation,
+                0f, 0f, scale, 0f, translation,
+                0f, 0f, 0f, 1f, 0f
+            )
+        )
+        updateImage()
+    }
+
+    // 饱和度调整，范围 -50% ~ +50%
+    fun adjustSaturation(saturationValue: Float) {
+        val saturation = clamp(saturationValue, SATURATION_MIM, SATURATION_MAX) + 0.5f
+        saturationMatrix.setSaturation(saturation)
+        updateImage()
+    }
+
+    // 设置滤镜，包括调整和风格滤镜
+    private fun enableColorFilter() {
+        val colorMatrix = ColorMatrix()
+        colorMatrix.preConcat(brightnessMatrix)
+        colorMatrix.preConcat(contrastMatrix)
+        colorMatrix.preConcat(saturationMatrix)
+        paint.colorFilter = ColorMatrixColorFilter(colorMatrix)
+    }
+
     // init {
     //     // TODO: 测试专用
     //     val options = BitmapFactory.Options().apply {
@@ -420,6 +485,13 @@ class ImageEditCore(application: Application) : AndroidViewModel(application) {
         const val IMAGE_MARGIN_RATIO = 0.2f     // 图像拖动边缘范围和屏幕尺寸的比值
         const val IMAGE_SCALE_MIN = 0.5f        // 缩放系数最小值
         const val IMAGE_SCALE_MAX = 2.0f        // 缩放系数最大值
+
+        const val BRIGHTNESS_MIN = -100f
+        const val BRIGHTNESS_MAX = +100f
+        const val CONTRAST_MIN = -50f
+        const val CONTRAST_MAX = +150f
+        const val SATURATION_MIM = -50f
+        const val SATURATION_MAX = +50f
 
         // 辅助函数
         fun getRectCenter(rect: RectF): PointF {
